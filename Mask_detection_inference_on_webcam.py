@@ -20,9 +20,11 @@ from torch import nn
 import torch.nn.functional as F
 import torchvision
 
-#model_path = 'D:/Projects/Face recognition/pytorch_models/model_5_loss_0.022123638967362542.pth'
+# path to the pytorch model
+#model_path = '/pytorch_models/'
 
-model_path = 'D:/Projects/Face recognition/Lightning_models/model_epoch=02-val_loss=0.09.ckpt'
+# path to the lightning model
+model_path = '/Lightning_models/model_epoch=02-val_loss=0.09.ckpt'
 
 class MobileFaceMask(nn.Module):
     
@@ -79,6 +81,8 @@ class MobileFaceMask(nn.Module):
     
 model = MobileFaceMask()
 #model = torch.load(model_path,map_location='cpu')
+
+# Loading lightning models saved as a checkpoint file
 state_dict = torch.load(model_path)
 model.load_state_dict(state_dict['state_dict'])
 
@@ -93,6 +97,8 @@ labels = ['Mask','No Mask']
 labelColor = [(10, 255, 0),(10, 0, 255)]
 
 cap = cv2.VideoCapture(0)
+
+# MTCNN for detecting the presence of faces 
 mtcnn = MTCNN(keep_all=True,device = device)
 
 model.to(device)
